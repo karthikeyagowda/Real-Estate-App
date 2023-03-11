@@ -1,3 +1,17 @@
+.card{
+  min-height: 400px;
+}
+
+.card-body h1{
+  font-family : fantasy;
+  color: #0069d9;
+}
+
+.font-highlight{
+  font-style: italic;
+  color: red;
+}
+
 h1{
   font-weight: normal;
 }
@@ -37,4 +51,8 @@ h1{
 }
 .animate{
   transition: all 0.3s ease-in-out;
+}
+.card-body h1{
+  font-family: fantasy;
+  color: #0069d9;
 }

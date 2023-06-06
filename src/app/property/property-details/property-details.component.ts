@@ -17,21 +17,17 @@ export class PropertyDetailsComponent  {
     ){}
   ngOnInit(){
     this.propertyId = this.route.snapshot.params['id'];
-    this.route.data.subscribe(
-      (data : Property) => {
-        this.property = data['prp'];
+
+
+    this.route.params.subscribe(
+      (params) => {
+        this.propertyId = +params['id'];
+        this.housingService.getProperty(this.propertyId).subscribe(
+          (data : Property) => {
+            this.property = data;
+          }, error => this.router.navigate(['/'])
+        )
       }
     );
-
-    // this.route.params.subscribe(
-    //   (params) => {
-    //     this.propertyId = +params['id'];
-    //     this.housingService.getProperty(this.propertyId).subscribe(
-    //       (data : Property) => {
-    //         this.property = data;
-    //       }, error => this.router.navigate(['/'])
-    //     )
-    //   }
-    // );
   }
 }

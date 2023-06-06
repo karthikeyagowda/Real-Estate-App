@@ -10,7 +10,7 @@ export class Property implements IPropertyBase {
   Price : number;
   BuiltArea : number;
   CarpetArea? : number;
-  Address : String;
+  Address? : String;
   City : string;
   FloorNo? : string;
   TotalFloor? : string;
@@ -23,6 +23,6 @@ export class Property implements IPropertyBase {
   Possession? : string;
   Image? : string;
   Description? : string;
-  PostedOn : string;
-  PostedBy : number;
+  PostedOn? : string;
+  PostedBy? : number;
 }

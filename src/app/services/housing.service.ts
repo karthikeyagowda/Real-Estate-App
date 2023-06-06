@@ -2,24 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import{map} from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { IPropertyBase } from '../model/ipropertybase';
 import { Property } from '../model/property';
 @Injectable({
   providedIn: 'root'
 })
 export class HousingService {
   constructor(private http:HttpClient){}
-  getAllProperties(sellRent:number) : Observable<IPropertyBase[]>
+
+  getProperty(id : number) {
+    return this.getAllProperties().pipe(
+      map(propertiesArray => {
+        return propertiesArray.find(p=> p.Id === id);
+      })
+    );
+  }
+
+  getAllProperties(sellRent?:number) : Observable<Property[]>
   {
-     return this.http.get<any>('data/properties.json').pipe(
+     return this.http.get<Property[]>('data/properties.json').pipe(
       map(data=>{
-        const propertiesArray : Array<IPropertyBase> = [];
+        const propertiesArray : Array<Property> = [];
         const localProperties = JSON.parse(localStorage.getItem('newProp'));
         if(localProperties)
         {
           for(const id in localProperties){
-            if(localProperties.hasOwnProperty(id) && localProperties[id].SellRent==sellRent){
-              localProperties.push(data[id]);
+            if(sellRent){
+              if(localProperties.hasOwnProperty(id) && localProperties[id].SellRent==sellRent){
+                propertiesArray.push(localProperties[id]);
+              }
+            }
+            else {
+              propertiesArray.push(localProperties[id]);
             }
           }
 
@@ -27,9 +40,15 @@ export class HousingService {
 
         for(const id in data)
         {
-          if(data.hasOwnProperty(id) && data[id].SellRent==sellRent){
+          if(sellRent) {
+            if(data.hasOwnProperty(id) && data[id].SellRent==sellRent){
+              propertiesArray.push(data[id]);
+            }
+          }
+          else {
             propertiesArray.push(data[id]);
           }
+
         }
         return propertiesArray;
       })
